@@ -1,0 +1,12 @@
+metadata:
+  name: instavote
+  namespace: argocd
+spec:
+  description: Example Voting App
+  destinations:
+  - name: in-cluster
+    namespace: staging
+    server: https://kubernetes.default.svc
+  - name: in-cluster
+    namespace: prod
+    server: https://kubernetes.default.svc

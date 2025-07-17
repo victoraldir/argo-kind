@@ -1,0 +1,35 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: vote-staging
+  namespace: argocd
+spec:
+  destination:
+    namespace: staging
+    server: https://kubernetes.default.svc
+  project: instavote
+  source:
+    path: staging
+    repoURL: https://github.com/victoraldir/argo-labs.git
+    targetRevision: HEAD
+  syncPolicy:
+    automated:
+      prune: true
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: vote-prod
+  namespace: argocd
+spec:
+  destination:
+    namespace: prod
+    server: https://kubernetes.default.svc
+  project: instavote
+  source:
+    path: prod
+    repoURL: https://github.com/victoraldir/argo-labs.git
+    targetRevision: release
+  syncPolicy:
+    automated:
+      prune: true

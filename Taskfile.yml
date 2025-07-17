@@ -1,0 +1,25 @@
+# https://taskfile.dev
+
+version: '3'
+
+vars:
+  GREETING: Hello, World!
+
+tasks:
+  default:
+    cmds:
+      - echo "{{.GREETING}}"
+    silent: true
+  install:
+    cmds:
+      - ./startup.sh
+      - task: install-argo-workflows
+    silent: true
+  install-argo-workflows:
+    cmds:
+      - ./install-argo-workflows.sh
+    silent: true
+  destroy:
+    cmds:
+      - ./destroy.sh
+    silent: true
