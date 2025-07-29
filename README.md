@@ -8,3 +8,20 @@ This is just a playground for testing ArgoCD, workflows, rollouts and other Argo
 - [argo-workflows](https://argoproj.github.io/argo-workflows/cli/)
 - [argo-rollouts](https://argoproj.github.io/argo-rollouts/cli/)
 - [argo-events](https://argoproj.github.io/argo-events/cli/)
+
+## Command utils
+
+```bash
+# Check the logs for sensor controller 
+kubectl logs -n argo-events -l "controller=sensor-controller"
+
+# Check the logs for eventbus controller
+kubectl logs -n argo-events -l "controller=eventbus-controller"
+
+# Check the logs for eventsource controller
+kubectl logs -n argo-events -l "controller=eventsource-controller"
+
+# List templates
+argo template list -A
+# OR
+kubectl get workflowtemplate -A

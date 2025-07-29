@@ -13,13 +13,16 @@ command_exists() {
   command -v "$1" >/dev/null 2>&1
 }
 
-# Check for Docker
+# Check for Docker or Podman
 if command_exists docker; then
   echo "Docker is already installed."
+elif command_exists podman; then
+  echo "Podman is already installed."
 else
-  echo "Docker not found. Installing Docker..."
-  brew install docker
+  echo "Neither Docker nor Podman is installed. Please install one of them to proceed."
+  exit 1
 fi
+
 
 # Check for Kind
 if command_exists kind; then
@@ -73,11 +76,7 @@ echo "All required tools are installed."
 echo "Starting Kind cluster..."
 
 # Git clone the repository, and ignore if folder already exists
-if [ ! -d "k8s-code" ]; then
-  git clone https://github.com/victoraldir/k8s-code.git
-else
-  echo "k8s-code folder already exists. Skipping git clone."
-fi
+git clone https://github.com/victoraldir/k8s-code.git
 
 cd k8s-code/helper/kind/
 kind create cluster --config kind-three-node-cluster.yaml --name "$KIND_CLUSTER_NAME" --wait 5m
