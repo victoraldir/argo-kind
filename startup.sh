@@ -129,6 +129,17 @@ echo "To access the ArgoCD UI, open your browser and go to https://localhost:321
 kubectl create namespace argo-rollouts
 kubectl apply -n argo-rollouts -f https://github.com/argoproj/argo-rollouts/releases/latest/download/install.yaml
 
+# Installing Argo CD Image Updater
+echo "Installing Argo CD Image Updater..."
+kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj-labs/argocd-image-updater/stable/manifests/install.yaml
+
+# Wait for image updater to be ready
+kubectl wait --for=condition=available --timeout=300s deployment/argocd-image-updater -n argocd
+
+# Create Secret with your GitHub credentials
+kubectl -n argocd create secret generic git-creds \
+  --from-literal=username=$GITHUB_USERNAME \
+  --from-literal=password=$GITHUB_TOKEN
 
 echo "Installing instavote project staging and production environments"
 # Create the instavote namespace

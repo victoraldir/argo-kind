@@ -51,16 +51,8 @@ kubectl create secret generic github-token-secret --from-literal=token=$GITHUB_T
 # Create GitHub Poller cronjob
 kubectl apply -f github-pooler/poller-cronjob.yaml
 
-# Install Argo Image Updater
-kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj-labs/argocd-image-updater/stable/manifests/install.yaml
-
-# Create Secret with your GitHub credentials
-kubectl -n argocd create secret generic git-creds \
-  --from-literal=username=$GITHUB_USERNAME \
-  --from-literal=password=$GITHUB_TOKEN
-
 # Path Vote Staging Patch
-kubectl patch application --type=merge -n argocd vote-staging --patch-file patch-vote-staging/argo_applications_vote-staging_patch.yaml
+kubectl patch application --type=merge -n argocd vote-staging --patch-file patch-vote-staging/argo_applications_vote-staging_patch.yaml -n argocd
 
 # Wait for the Argo server to be ready
 echo "Waiting for Argo server to be ready..."
